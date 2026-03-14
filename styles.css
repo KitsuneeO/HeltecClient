@@ -17,10 +17,7 @@ a { text-decoration: none; color: inherit; }
     100% { transform: translate(-30px, 40px) scale(0.9); }
 }
 
-/* ==================== COMPONENTS ==================== */
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-.reveal.show { opacity: 1; transform: translateY(0); }
-
+/* ==================== HEADER & HERO ==================== */
 header { width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(11, 11, 11, 0.7); backdrop-filter: blur(15px); position: fixed; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 .logo { font-size: 1.6rem; font-weight: bold; color: #6ee7b7; text-transform: uppercase; letter-spacing: 2px; }
 nav a { margin-left: 25px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; }
@@ -28,17 +25,14 @@ nav a:hover { color: #6ee7b7; }
 
 .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
 .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); color: #6ee7b7; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 15px; }
-.hero p { font-size: 1.15rem; color: #aaa; max-width: 600px; margin-bottom: 35px; }
-
 .btn { padding: 14px 34px; border-radius: 8px; font-weight: bold; transition: 0.3s; display: inline-block; cursor: pointer; border: none; }
-.buy-client-btn { background: linear-gradient(90deg, #6ee7b7, #3b82f6); color: #000; }
 .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
 
-/* ==================== FEATURES & PRICING (Z HOVEREM) ==================== */
+/* ==================== FEATURES & PRICING ==================== */
 #features, #pricing { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
-
 .wcu-grid, .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
+/* Karta */
 .wcu-card, .price-card { 
     background: rgba(20, 20, 20, 0.6); 
     padding: 40px; 
@@ -56,8 +50,19 @@ nav a:hover { color: #6ee7b7; }
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(110, 231, 183, 0.15);
 }
 
-.wcu-icon-box { width: 45px; height: 45px; background: rgba(110, 231, 183, 0.1); color: #6ee7b7; display: flex; justify-content: center; align-items: center; border-radius: 10px; margin-bottom: 20px; font-size: 1.3rem; }
-.price-card.featured { border: 1px solid #6ee7b7; }
+/* Animacja ikony */
+.wcu-icon-box { 
+    width: 45px; height: 45px; background: rgba(110, 231, 183, 0.1); color: #6ee7b7; 
+    display: flex; justify-content: center; align-items: center; border-radius: 10px; 
+    margin-bottom: 20px; font-size: 1.3rem; 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wcu-card:hover .wcu-icon-box {
+    transform: translateY(-8px) rotate(-15deg);
+    background: rgba(110, 231, 183, 0.2);
+    color: #fff;
+}
 
 /* ==================== FOOTER & RESPONSIVE ==================== */
 footer { padding: 80px 20px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); }

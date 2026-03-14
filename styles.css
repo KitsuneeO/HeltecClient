@@ -1,90 +1,16 @@
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family: 'Segoe UI',sans-serif;
-  color:#fff;
-  background:#000;
-  overflow-x:hidden;
+/* Klasa bazowa dla elementów, które mają się pojawiać */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
 }
 
-header{
-  position:fixed;top:0;left:0;width:100%;
-  display:flex;justify-content:space-between;
-  padding:20px 60px;backdrop-filter:blur(10px);
-  z-index:999;
+/* Klasa, którą doda JavaScript, gdy element wejdzie w pole widzenia */
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-nav a{
-  margin-left:25px;
-  text-decoration:none;color:#fff;
-  font-weight:600;
-  transition:0.3s;
-}
-nav a:hover{color:#00ff88;}
-
-.logo{font-size:24px;font-weight:bold;color:#00ff88;}
-
-.hero{
-  height:100vh;display:flex;
-  flex-direction:column;align-items:center;
-  justify-content:center;text-align:center;
-  padding:0 20px;
-}
-.hero h1{
-  font-size:80px;color:#00ff88;
-  animation:fadeIn 1.5s ease-out;
-}
-.hero p{font-size:18px;margin:20px 0;opacity:0.8;}
-
-.btn{
-  background:#00ff88;color:#000;
-  font-weight:bold;padding:15px 40px;
-  border-radius:8px;text-decoration:none;
-  transition:0.3s;
-}
-.btn:hover{transform:scale(1.05);}
-
-.features{
-  display:flex;justify-content:center;
-  gap:30px;padding:80px 20px;
-  text-align:center;
-  animation:fadeIn 1.3s ease-out;
-}
-.feature{
-  width:240px;
-  padding:25px;
-  background:rgba(255,255,255,0.05);
-  border-radius:15px;
-  backdrop-filter:blur(8px);
-  transition:0.3s;
-}
-.feature:hover{transform:scale(1.08);}
-
-.download-section{
-  text-align:center; padding:80px 20px;
-  animation:fadeIn 1.3s ease-out;
-}
-
-footer{
-  background:#111;
-  padding:60px 20px;  /* więcej miejsca od góry i dołu */
-  text-align:center;
-  font-size:14px;
-  opacity:0.9;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:15px; /* odstęp między elementami */
-}
-
-footer .btn.small{
-  margin-top:10px;
-  padding:10px 30px;
-  font-size:14px;
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(30px);}
-  to{opacity:1;transform:translateY(0);}
-}
-footer {
-    padding-bottom: 60px; /* więcej miejsca od dołu */
-}
+/* Opcjonalne opóźnienie dla kart w rzędzie, żeby pojawiały się jedna po drugiej */
+.wcu-card:nth-child(2) { transition-delay: 0.1s; }
+.wcu-card:nth-child(3) { transition-delay: 0.2s; }

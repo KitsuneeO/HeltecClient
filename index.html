@@ -2,176 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Heltec Client</title>
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
-body{
-color:white;
-overflow-x:hidden;
-background:black;
-}
-
-/* animated neon background */
-
-body::before{
-content:"";
-position:fixed;
-width:200%;
-height:200%;
-background:linear-gradient(
-45deg,
-#6a00ff,
-#9d4edd,
-#5a00ff,
-#240046
-);
-background-size:400% 400%;
-animation:bg 12s infinite linear;
-z-index:-1;
-filter:blur(120px);
-}
-
-@keyframes bg{
-0%{transform:translate(-25%,-25%) rotate(0deg)}
-50%{transform:translate(-30%,-30%) rotate(180deg)}
-100%{transform:translate(-25%,-25%) rotate(360deg)}
-}
-
-/* main section */
-
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-
-.title{
-font-size:80px;
-font-weight:bold;
-text-shadow:
-0 0 10px #9d4edd,
-0 0 20px #9d4edd,
-0 0 40px #9d4edd;
-animation:fade 2s ease;
-}
-
-.desc{
-margin-top:15px;
-font-size:22px;
-opacity:0.9;
-animation:fade 3s ease;
-}
-
-.line{
-margin-top:25px;
-width:250px;
-height:3px;
-background:#9d4edd;
-box-shadow:0 0 20px #9d4edd;
-}
-
-.bottom{
-margin-top:20px;
-max-width:600px;
-opacity:0.8;
-line-height:1.6;
-}
-
-.scroll{
-margin-top:50px;
-opacity:0.7;
-font-size:14px;
-animation:bounce 2s infinite;
-}
-
-@keyframes bounce{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(10px)}
-}
-
-/* discord section */
-
-.discord-section{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
-}
-
-.discord{
-font-size:60px;
-text-decoration:none;
-color:#c77dff;
-text-shadow:
-0 0 10px #c77dff,
-0 0 20px #c77dff;
-transition:0.3s;
-}
-
-.discord:hover{
-transform:scale(1.2);
-text-shadow:
-0 0 20px #e0aaff,
-0 0 40px #e0aaff;
-}
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(30px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
+<div id="particles-js"></div>
+
+<header>
+  <div class="logo">Heltec Client</div>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="#contact">Discord</a>
+  </nav>
+</header>
+
 <section class="hero">
-
-<div class="title">Heltec Client</div>
-
-<div class="desc">
-heltec client cheat minecraft
-</div>
-
-<div class="line"></div>
-
-<div class="bottom">
-This cheat is very good in hvh and has a bypass for polar anticheat, join discord to purchase it
-</div>
-
-<div class="scroll">
-scroll down ↓
-</div>
-
+  <h1>Heltec Client</h1>
+  <p>Powerful & Smooth Minecraft client designed for top-tier PvP experience.</p>
+  <a href="#download" class="btn">Download Now</a>
 </section>
 
-<section class="discord-section">
-
-<a class="discord" href="https://discord.gg/qt9EwXRXrK" target="_blank">
-DISCORD
-</a>
-
+<section id="features" class="features">
+  <div class="feature">
+    <h3>Smooth Performance</h3>
+    <p>Optimized for high FPS & low lag.</p>
+  </div>
+  <div class="feature">
+    <h3>Advanced Modules</h3>
+    <p>High tier PvP features built‑in.</p>
+  </div>
+  <div class="feature">
+    <h3>Easy UI</h3>
+    <p>Clean interface & fast setup.</p>
+  </div>
 </section>
 
+<section id="download" class="download-section">
+  <h2>Download Heltec Client</h2>
+  <a class="btn big" href="##">Download</a>
+</section>
+
+<footer id="contact">
+  <p>Join our Discord for updates!</p>
+  <a class="btn small" href="#">Discord</a>
+  <p>© 2026 Heltec Client</p>
+</footer>
+
+<script src="particles.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

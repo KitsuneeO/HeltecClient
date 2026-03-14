@@ -1,58 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heltec Client</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heltec Client | Premium Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ==================== GLOBAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0b0b0b;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-<link rel="stylesheet" href="styles.css">
+        /* ==================== ANIMATIONS (SCROLL REVEAL) ==================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Opóźnienia dla kart, by pojawiały się kaskadowo */
+        .wcu-card:nth-child(1) { transition-delay: 0.1s; }
+        .wcu-card:nth-child(2) { transition-delay: 0.2s; }
+        .wcu-card:nth-child(3) { transition-delay: 0.3s; }
+        .wcu-card:nth-child(4) { transition-delay: 0.1s; }
+        .wcu-card:nth-child(5) { transition-delay: 0.2s; }
+        .wcu-card:nth-child(6) { transition-delay: 0.3s; }
+
+        /* ==================== HEADER ==================== */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 11, 11, 0.8);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255, 0.05);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #6ee7b7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav a {
+            margin-left: 30px;
+            font-weight: bold;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        nav a:hover { color: #6ee7b7; }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(11, 11, 11, 0.7), rgba(11, 11, 11, 0.9)), 
+                        url('https://wallpapers.com/images/featured/minecraft-background-3e0q025v0g8k8s0k.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 20px;
+            color: #6ee7b7;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #ccc;
+            max-width: 700px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .btn {
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .buy-client-btn {
+            background: linear-gradient(90deg, #6ee7b7, #3b82f6);
+            color: #000;
+        }
+        .discord-btn {
+            background: rgba(255,255,255, 0.05);
+            border: 1px solid rgba(255,255,255, 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ==================== FEATURES GRID ==================== */
+        #features {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #6ee7b7;
+            text-transform: uppercase;
+        }
+
+        .wcu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .wcu-card {
+            background: #151515;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+        }
+        .wcu-card:hover {
+            border-color: #6ee7b7;
+            background: #1a1a1a;
+            transform: translateY(-5px);
+        }
+        .wcu-icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(110, 231, 183, 0.1);
+            color: #6ee7b7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        .wcu-card h3 { margin-bottom: 15px; font-size: 1.4rem; }
+        .wcu-card p { color: #888; line-height: 1.6; font-size: 0.95rem; }
+
+        /* ==================== PRICING SECTION ==================== */
+        #pricing {
+            padding: 120px 20px;
+            background: #0f0f0f;
+            text-align: center;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .price-card {
+            background: #151515;
+            padding: 60px 30px;
+            border-radius: 20px;
+            border: 1px dashed #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: border-color 0.3s;
+        }
+        .price-card.featured {
+            border: 1px solid #6ee7b7;
+            box-shadow: 0 0 20px rgba(110, 231, 183, 0.1);
+        }
+        .price-card h3 {
+            color: #6ee7b7;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+        }
+        .coming-soon-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .featured .coming-soon-text { color: #6ee7b7; }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            padding: 80px 20px;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 992px) {
+            .wcu-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 650px) {
+            .wcu-grid, .pricing-grid { grid-template-columns: 1fr; }
+            header { padding: 20px; }
+            nav a { margin-left: 15px; font-size: 0.7rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div id="particles-js"></div>
+    <header>
+        <div class="logo">Heltec</div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Buy Client</a>
+            <a href="https://discord.gg/qt9EwXRXrK" target="_blank">Discord</a>
+        </nav>
+    </header>
 
-<header>
-  <div class="logo">Heltec Client</div>
-  <nav>
-    <a href="#features">Features</a>
-    <a href="#download">Download</a>
-    <a href="#contact">Discord</a>
-  </nav>
-</header>
+    <section class="hero">
+        <h1>Heltec Client</h1>
+        <p>The next generation of Minecraft utility. Experience unmatched performance, advanced features, and a community-driven approach.</p>
+        <div class="hero-buttons">
+            <a href="#pricing" class="btn buy-client-btn">Buy Client</a>
+            <a href="https://discord.gg/qt9EwXRXrK" target="_blank" class="btn discord-btn">Discord</a>
+        </div>
+    </section>
 
-<section class="hero">
-  <h1>Heltec Client</h1>
-  <p>Powerful & Smooth Minecraft client designed for top-tier PvP experience.</p>
-  <a href="#download" class="btn">Download Now</a>
-</section>
+    <section id="features">
+        <div class="section-header reveal">
+            <h2>Why Choose Us?</h2>
+        </div>
+        <div class="wcu-grid">
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-bolt"></i></div>
+                <h3>Performance</h3>
+                <p>Engineered for speed. Our client ensures the highest possible FPS even on low-end machines.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-shield-alt"></i></div>
+                <h3>Security</h3>
+                <p>Advanced bypasses and regular updates to keep you undetected on major servers.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-sync"></i></div>
+                <h3>Updates</h3>
+                <p>Constant development. We add new features and fixes based on user feedback every week.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-headset"></i></div>
+                <h3>Support</h3>
+                <p>Need help? Our dedicated support team is available 24/7 on our Discord server.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-users"></i></div>
+                <h3>Community</h3>
+                <p>Join over 100+ active users. Share configs, strategies, and play together.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-sliders-h"></i></div>
+                <h3>Customization</h3>
+                <p>Fully modular system. Change everything from visuals to combat settings in our intuitive GUI.</p>
+            </div>
+        </div>
+    </section>
 
-<section id="features" class="features">
-  <div class="feature">
-    <h3>Smooth Performance</h3>
-    <p>Optimized for high FPS & low lag.</p>
-  </div>
-  <div class="feature">
-    <h3>Advanced Modules</h3>
-    <p>High tier PvP features built‑in.</p>
-  </div>
-  <div class="feature">
-    <h3>Easy UI</h3>
-    <p>Clean interface & fast setup.</p>
-  </div>
-</section>
+   <section id="pricing">
+        <div class="section-header reveal">
+            <h2>Pricing</h2>
+            <p style="color: #666; margin-top: 10px;">Transparent plans for everyone</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card reveal">
+                <h3>Week</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+            <div class="price-card featured reveal">
+                <h3>Lifetime</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+            <div class="price-card reveal">
+                <h3>Monthly</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+        </div>
+    </section>
+            </div>
+        </div>
+    </section>
 
-<section id="download" class="download-section">
-  <h2>Download Heltec Client</h2>
-  <a class="btn big" href="##">Download</a>
-</section>
+    <footer>
+        <div class="logo reveal" style="margin-bottom: 20px;">Heltec</div>
+        <p class="reveal" style="color: #444; font-size: 0.9rem;">&copy; 2026 Heltec Client. Made by KitsuneeO</p>
+    </footer>
 
-<footer id="contact">
-  <p>Join our Discord for updates!</p>
-  <a class="btn small" href="#">Discord</a>
-  <p>© 2026 Heltec Client</p>
-</footer>
+    <script>
+        const observerOptions = {
+            threshold: 0.15
+        };
 
-<script src="particles.js"></script>
-<script src="script.js"></script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
 </body>
 </html>

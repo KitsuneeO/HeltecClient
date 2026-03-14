@@ -1,2 +1,1 @@
-# HeltecClient
-best cheapest cheat for minecraft
+# Heltec Client by zakupic udaj sie na naszego discorda

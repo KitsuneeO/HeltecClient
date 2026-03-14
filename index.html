@@ -1,90 +1,315 @@
-<html lang="pl"><head>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELTEC CLIENT</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Heltec Client | Made by KitsuneeO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #ffffff; scroll-behavior: smooth; overflow-x: hidden; }
-        
-        .feature-card { background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%); border: 1px solid rgba(255, 255, 255, 0.04); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; transform-origin: center; }
-        .feature-card:hover { border-color: rgba(255, 255, 255, 0.25); transform: translateY(-8px) scale(1.03); box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 25px rgba(255,255,255,0.06); }
-        
-        .icon-container { width: 44px; height: 44px; background-color: rgba(255, 255, 255, 0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; transition: all 0.4s; }
-        .feature-card:hover .icon-container { transform: scale(1.15) rotate(6deg); background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 0 20px rgba(255, 255, 255, 0.15); }
+        /* ==================== GLOBAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0b0b0b;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-        .glow-text { color: #72f7b4; transition: text-shadow 0.4s ease-out; }
-        
-        /* Pricing styles */
-        .price-card { background: #0d0d0d; border: 1px solid #222; border-radius: 12px; padding: 40px; text-align: center; transition: all 0.3s ease; }
-        .price-card.active-border { border: 1px solid #72f7b4; }
-        
-        .reveal { opacity: 0; transform: translateY(40px) scale(0.97); filter: blur(5px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(5px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal-scale.active { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
-        
-        .float-wrapper { animation: floating 5s ease-in-out infinite; }
-        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        /* ==================== BACKGROUND BLOBS (DYMKI) ==================== */
+        .background-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #0b0b0b;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(110, 231, 183, 0.12) 0%, transparent 70%);
+            filter: blur(80px);
+            border-radius: 50%;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob:nth-child(1) { top: -10%; left: -10%; background: radial-gradient(circle, rgba(110, 231, 183, 0.15) 0%, transparent 70%); }
+        .blob:nth-child(2) { bottom: 10%; right: -5%; background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%); animation-duration: 25s; }
+        .blob:nth-child(3) { top: 40%; left: 30%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(110, 231, 183, 0.08) 0%, transparent 70%); animation-duration: 15s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 60px) scale(1.1); }
+            100% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* ==================== ANIMATIONS (REVEAL) ==================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================== HEADER ==================== */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 11, 11, 0.7);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255, 0.05);
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #6ee7b7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav a {
+            margin-left: 25px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        nav a:hover { color: #6ee7b7; }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, transparent 0%, rgba(11, 11, 11, 0.4) 100%);
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: #6ee7b7;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: #aaa;
+            max-width: 600px;
+            margin-bottom: 35px;
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .btn {
+            padding: 14px 34px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .buy-client-btn { background: linear-gradient(90deg, #6ee7b7, #3b82f6); color: #000; }
+        .discord-btn { background: rgba(255,255,255, 0.05); border: 1px solid rgba(255,255,255, 0.1); }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        /* ==================== FEATURES GRID ==================== */
+        #features { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.2rem; color: #6ee7b7; text-transform: uppercase; }
+
+        .wcu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .wcu-card {
+            background: rgba(20, 20, 20, 0.6);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #222;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .wcu-card:hover { border-color: #6ee7b7; background: rgba(30, 30, 30, 0.8); }
+        .wcu-icon-box {
+            width: 45px; height: 45px;
+            background: rgba(110, 231, 183, 0.1);
+            color: #6ee7b7;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 10px; margin-bottom: 20px; font-size: 1.3rem;
+        }
+        .wcu-card h3 { margin-bottom: 12px; font-size: 1.3rem; }
+        .wcu-card p { color: #888; line-height: 1.5; font-size: 0.9rem; }
+
+        /* ==================== PRICING ==================== */
+        #pricing { padding: 100px 20px; background: rgba(10, 10, 10, 0.5); text-align: center; }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .price-card {
+            background: rgba(20, 20, 20, 0.6);
+            padding: 50px 30px;
+            border-radius: 20px;
+            border: 1px dashed #333;
+            transition: 0.3s;
+        }
+        .price-card.featured { border: 1px solid #6ee7b7; background: rgba(110, 231, 183, 0.03); }
+        .price-card h3 { color: #6ee7b7; margin-bottom: 15px; text-transform: uppercase; }
+        .coming-soon-text { font-size: 1.1rem; font-weight: bold; color: #444; text-transform: uppercase; }
+        .featured .coming-soon-text { color: #6ee7b7; }
+
+        /* ==================== FOOTER ==================== */
+        footer { padding: 80px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-copy { color: #444; font-size: 0.85rem; margin-top: 15px; }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 992px) { .wcu-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 650px) {
+            .wcu-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+            header { padding: 20px; }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center">
+<body>
 
-    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center">
-        <div class="text-2xl font-extrabold tracking-wider text-[#72f7b4] uppercase">HELTEC CLIENT</div>
-        <div class="flex gap-8 text-sm font-bold tracking-widest text-gray-300 uppercase">
-            <a href="#features" class="hover:text-white transition-all">Features</a>
-            <a href="#pricing" class="hover:text-white transition-all">Pricing</a>
-            <a href="https://discord.gg/qt9EwXRXrK" target="_blank" class="hover:text-[#5865F2] transition-all">Discord</a>
-        </div>
-    </nav>
+    <div class="background-blobs">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
 
-    <main class="w-full max-w-6xl mx-auto px-6 flex-1 flex flex-col items-center justify-center mt-16 mb-24">
-        <h1 class="reveal glow-text text-5xl md:text-7xl font-extrabold tracking-widest mb-6 text-center active">HELTEC CLIENT</h1>
-        <p class="reveal delay-100 text-gray-400 text-lg md:text-xl text-center max-w-2xl mb-12 active">
-            Jestem HELTEC CLIENT! na tej stronie znajduja sie moje projekty i ta strone bede aktywnie ulepszal.
-        </p>
+    <header>
+        <div class="logo">Heltec</div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Buy Client</a>
+            <a href="https://discord.gg/qt9EwXRXrK" target="_blank">Discord</a>
+        </nav>
+    </header>
 
-        <div class="reveal-scale delay-200 float-wrapper active">
-            <a href="https://discord.gg/qt9EwXRXrK" target="_blank" class="bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-md font-bold text-lg transition-all shadow-[0_0_15px_rgba(88,101,242,0.5)]">
-                Discord
-            </a>
-        </div>
-    </main>
-
-    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-32">
-        <h2 class="reveal text-3xl md:text-4xl font-extrabold text-center mb-16 tracking-wide text-[#72f7b4] active">WHY CHOOSE US?</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="reveal delay-100 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Performance</h3><p class="text-gray-400 text-sm">Engineered for maximum FPS. Experience smooth gameplay even on low-end hardware.</p></div>
-            <div class="reveal delay-200 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Security</h3><p class="text-gray-400 text-sm">Advanced bypasses and regular updates keep you safe from detection.</p></div>
-            <div class="reveal delay-300 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Fast Updates</h3><p class="text-gray-400 text-sm">We adapt quickly to server changes and new Minecraft versions.</p></div>
-            <div class="reveal delay-400 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Support</h3><p class="text-gray-400 text-sm">Our staff is ready to help you 24/7 with any technical issues.</p></div>
-            <div class="reveal delay-500 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Community</h3><p class="text-gray-400 text-sm">Join a network of users, share your settings and dominate together.</p></div>
-            <div class="reveal delay-600 feature-card rounded-2xl p-8 group active"><div class="icon-container"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg></div><h3 class="text-xl font-bold mb-3 text-white">Customizable</h3><p class="text-gray-400 text-sm">Fully modular interface. Adjust every setting to fit your playstyle.</p></div>
+    <section class="hero">
+        <h1 class="reveal">Heltec Client</h1>
+        <p class="reveal">Modern Minecraft utility designed for performance and precision. Built for the community, powered by KitsuneeO.</p>
+        <div class="hero-buttons reveal">
+            <a href="#pricing" class="btn buy-client-btn">Buy Client</a>
+            <a href="https://discord.gg/qt9EwXRXrK" target="_blank" class="btn discord-btn" style="margin-left: 10px;">Discord</a>
         </div>
     </section>
 
-    <section id="pricing" class="w-full max-w-6xl mx-auto px-6 py-20">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-            <div class="reveal price-card active"><h3 class="text-xl font-bold text-[#72f7b4] mb-2">WEEK</h3><p class="text-gray-500 font-semibold">COMING SOON</p></div>
-            <div class="reveal price-card active-border active"><h3 class="text-xl font-bold text-[#72f7b4] mb-2">LIFETIME</h3><p class="text-gray-500 font-semibold">COMING SOON</p></div>
-            <div class="reveal price-card active"><h3 class="text-xl font-bold text-[#72f7b4] mb-2">MONTHLY</h3><p class="text-gray-500 font-semibold">COMING SOON</p></div>
+    <section id="features">
+        <div class="section-header reveal">
+            <h2>Why Choose Us?</h2>
+        </div>
+        <div class="wcu-grid">
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-bolt"></i></div>
+                <h3>Performance</h3>
+                <p>Engineered for maximum FPS. Experience smooth gameplay even on low-end hardware.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-shield-alt"></i></div>
+                <h3>Security</h3>
+                <p>Advanced bypasses and regular updates keep you safe from detection.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-sync"></i></div>
+                <h3>Fast Updates</h3>
+                <p>We adapt quickly to server changes and new Minecraft versions.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-headset"></i></div>
+                <h3>Support</h3>
+                <p>Our staff is ready to help you 24/7 with any technical issues.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-users"></i></div>
+                <h3>Community</h3>
+                <p>Join a network of users, share your settings and dominate together.</p>
+            </div>
+            <div class="wcu-card reveal">
+                <div class="wcu-icon-box"><i class="fas fa-sliders-h"></i></div>
+                <h3>Customizable</h3>
+                <p>Fully modular interface. Adjust every setting to fit your playstyle.</p>
+            </div>
         </div>
     </section>
 
-    <footer class="w-full text-center py-20 mt-auto">
-        <div class="text-3xl font-bold text-[#72f7b4] mb-4">HELTEC</div>
-        <p class="text-gray-600 text-sm">© 2026 Heltec Client. Made by KitsuneeO</p>
+    <section id="pricing">
+        <div class="section-header reveal">
+            <h2>Pricing</h2>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card reveal">
+                <h3>Week</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+            <div class="price-card featured reveal">
+                <h3>Lifetime</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+            <div class="price-card reveal">
+                <h3>Monthly</h3>
+                <div class="coming-soon-text">Coming Soon</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo reveal">Heltec</div>
+        <p class="footer-copy reveal">&copy; 2026 Heltec Client. Made by KitsuneeO</p>
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("active"); }});
-            }, { threshold: 0.15 });
-            document.querySelectorAll(".reveal, .reveal-scale, .price-card").forEach(el => observer.observe(el));
+        // SCROLL REVEAL SCRIPT
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
         });
     </script>
+
 </body>
 </html>
+<div class="background-blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+</div>

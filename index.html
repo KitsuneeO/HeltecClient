@@ -1,12 +1,456 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heltec Client</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary: #5865F2;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Custom cursor glow */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 65%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: screen;
+            opacity: 1;
+        }
+        
+        .cursor-hidden {
+            opacity: 0 !important;
+        }
+        
+        /* Scroll progress */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: #5865F2;
+            z-index: 9999;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
+        }
+        
+        /* Background blobs */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.25;
+            animation: blob-float 25s infinite alternate ease-in-out;
+        }
+        
+        .blob-1 {
+            top: -20%; 
+            left: -10%;
+            width: 50vw; 
+            height: 50vw;
+            background: rgba(88, 101, 242, 0.6);
+        }
+        
+        .blob-2 {
+            bottom: -20%; 
+            right: -10%;
+            width: 60vw; 
+            height: 60vw;
+            background: rgba(255, 255, 255, 0.1);
+            animation-duration: 33s;
+            animation-direction: alternate-reverse;
+        }
+        
+        @keyframes blob-float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(6vw, 8vh) scale(1.1); }
+            100% { transform: translate(-4vw, 14vh) scale(0.95); }
+        }
+        
+        /* Feature cards */
+        .feature-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                rgba(255,255,255,0.12), 
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: 0.75s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+        }
+        
+        .feature-card:hover::before {
+            left: 250%;
+        }
+        
+        .feature-card:hover {
+            border-color: rgba(88, 101, 242, 0.3);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+        
+        .icon-container {
+            width: 56px;
+            height: 56px;
+            background-color: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .feature-card:hover .icon-container {
+            transform: scale(1.15) rotate(8deg);
+            background-color: rgba(88, 101, 242, 0.15);
+        }
+        
+        /* Glow text */
+        .glow-text {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+        
+        .glow-text:hover {
+            text-shadow: 
+                0 0 20px rgba(255,255,255,0.6),
+                0 0 40px rgba(88,101,242,0.5);
+            letter-spacing: 0.075em;
+        }
+        
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1000ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.92) translateY(30px);
+            transition: all 1000ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        .float-wrapper {
+            animation: floating 3.8s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #5865F2;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .heartbeat-hover:hover {
+            animation: heartbeat 1.2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .tail-container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#050505] text-white overflow-x-hidden relative">
+
+    <!-- Custom cursor glow -->
+    <div id="cursor-glow"></div>
+
+    <!-- Scroll progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Background blobs -->
+    <div class="bg-blob blob-1 pointer-events-none"></div>
+    <div class="bg-blob blob-2 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-end items-center relative z-30">
+        <div class="flex gap-10 text-sm font-semibold tracking-widest text-gray-400 uppercase">
+            <a href="#features" class="nav-link hover:text-white transition-all interactive-el">Features</a>
+            <a href="https://discord.gg/qt9EwXRXrK" target="_blank" rel="noopener noreferrer" 
+               class="nav-link text-[#5865F2] hover:text-[#4752C4] transition-all interactive-el">Discord</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <main class="w-full max-w-6xl mx-auto px-6 flex flex-col items-center justify-center min-h-[85vh] relative z-10 pt-10">
+        <div class="text-center">
+            <h1 class="reveal glow-text text-6xl md:text-7xl font-black tracking-[0.07em] mb-6 text-white">
+                HELTEC CLIENT
+            </h1>
+            
+            <p class="reveal delay-100 max-w-xl mx-auto text-gray-400 text-xl md:text-2xl mb-12 leading-tight">
+                Premium Minecraft client with powerful cheats and unmatched performance.
+            </p>
+
+            <div class="reveal-scale delay-200 float-wrapper">
+                <a href="https://discord.gg/qt9EwXRXrK" target="_blank" rel="noopener noreferrer"
+                   class="group inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] text-white px-10 py-5 rounded-2xl font-bold text-lg tracking-wider shadow-[0_0_30px_-4px] shadow-[#5865F2] hover:shadow-[0_0_50px_-2px] hover:shadow-[#5865F2] transition-all duration-300 hover:-translate-y-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-transform group-active:rotate-12" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
+                    </svg>
+                    <span>Dołącz do Discord</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section id="features" class="w-full max-w-6xl mx-auto px-6 py-24 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="reveal text-5xl md:text-6xl font-black tracking-widest text-white">WHY HELTEC?</h2>
+            <div class="h-0.5 w-20 bg-[#5865F2] mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-100">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Performance</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    Engineered for maximum FPS. Experience smooth gameplay even on low-end hardware.
+                </p>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-200">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Security</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    Advanced bypasses and regular updates keep you safe from detection.
+                </p>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-300">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Fast Updates</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    We adapt quickly to server changes and new Minecraft versions.
+                </p>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-400">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 01-5.356-1.857M17 20H7m5-2v-2c0-.656-.126-1.284-.356-1.852M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.284.356-1.852m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Support</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    Our staff is ready to help you 24/7 with any technical issues.
+                </p>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-500">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 01-5.356-1.857M17 20H7m5-2v-2c0-.656-.126-1.284-.356-1.852M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.284.356-1.852m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Community</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    Join a network of users, share your settings and dominate together.
+                </p>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-600">
+                <div class="icon-container text-[#5865F2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 002.573-1.066c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 00.817 1.194 1.724 1.724 0 01.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194 1.724 1.724 0 01-.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Customizable</h3>
+                <p class="text-gray-400 text-[15.2px] leading-relaxed">
+                    Fully modular interface. Adjust every setting to fit your playstyle.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 border-t border-white/10 mt-auto relative z-10">
+        <div class="max-w-6xl mx-auto px-6 flex justify-center">
+            <p onclick="window.location.href='https://discord.gg/qt9EwXRXrK'" 
+               class="heartbeat-hover text-gray-500 hover:text-white text-sm font-medium tracking-[0.125em] flex items-center gap-2 cursor-pointer transition-colors">
+                MADE WITH ❤️ BY 
+                <span class="font-semibold text-white">HELTEC</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            tailwind.config = {
+                content: [],
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // Cursor glow
+        function initCursor() {
+            const cursorGlow = document.getElementById('cursor-glow');
+            
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                cursorGlow.style.left = `${x}px`;
+                cursorGlow.style.top = `${y}px`;
+            });
+            
+            const interactiveElements = document.querySelectorAll('a, button, .feature-card, .interactive-el, .nav-link');
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorGlow.classList.add('cursor-hidden');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorGlow.classList.remove('cursor-hidden');
+                });
+            });
+        }
+        
+        // Scroll progress
+        function initScrollProgress() {
+            const progressBar = document.getElementById('scroll-progress');
+            
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                progressBar.style.width = `${scrolled}%`;
+            });
+        }
+        
+        // Reveal animations
+        function initRevealAnimations() {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px"
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, observerOptions);
+            
+            const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+            revealElements.forEach(el => observer.observe(el));
+        }
+        
+        // Initialize everything
+        function initialize() {
+            initializeTailwind();
+            initCursor();
+            initScrollProgress();
+            initRevealAnimations();
+            
+            // Add active class to first elements immediately
+            setTimeout(() => {
+                const firstReveal = document.querySelector('.reveal');
+                if (firstReveal) firstReveal.classList.add('active');
+            }, 300);
+        }
+        
+        // Run when loaded
+        window.onload = initialize;
+    </script>
+</body>
 </html>

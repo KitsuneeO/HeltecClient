@@ -65,11 +65,22 @@ nav a:hover{color:#00ff88;}
 }
 
 footer{
-  background:#111;padding:40px;
-  text-align:center;font-size:14px;
+  background:#111;
+  padding:60px 20px;  /* więcej miejsca od góry i dołu */
+  text-align:center;
+  font-size:14px;
   opacity:0.9;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:15px; /* odstęp między elementami */
 }
 
+footer .btn.small{
+  margin-top:10px;
+  padding:10px 30px;
+  font-size:14px;
+}
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(30px);}
   to{opacity:1;transform:translateY(0);}

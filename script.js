@@ -1,19 +1,15 @@
-// Simple scroll animations
-const options = {
-  threshold: 0.2
-};
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, {
+        threshold: 0.1 // Animacja odpali się, gdy 10% elementu będzie widoczne
+    });
 
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.style.opacity = 1;
-      entry.target.style.transform = 'none';
-    }
-  });
-}, options);
-
-document.querySelectorAll('.feature, .download-section').forEach(el => {
-  el.style.opacity = 0;
-  el.style.transform = 'translateY(50px)';
-  observer.observe(el);
-});
+    // Wybieramy wszystkie elementy z klasą .reveal i zaczynamy ich obserwację
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+</script>

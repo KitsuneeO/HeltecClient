@@ -6,54 +6,101 @@
 
 <style>
 
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
-background:linear-gradient(135deg,#0b0b0f,#1a1a2e);
-color:white;
-text-align:center;
 }
 
-.container{
+body{
+color:white;
+overflow-x:hidden;
+background:black;
+}
+
+/* animated neon background */
+
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:linear-gradient(
+45deg,
+#6a00ff,
+#9d4edd,
+#5a00ff,
+#240046
+);
+background-size:400% 400%;
+animation:bg 12s infinite linear;
+z-index:-1;
+filter:blur(120px);
+}
+
+@keyframes bg{
+0%{transform:translate(-25%,-25%) rotate(0deg)}
+50%{transform:translate(-30%,-30%) rotate(180deg)}
+100%{transform:translate(-25%,-25%) rotate(360deg)}
+}
+
+/* main section */
+
+.hero{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+text-align:center;
 }
 
-h1{
-font-size:60px;
-margin:0;
-background:linear-gradient(90deg,#7a5cff,#b56cff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+.title{
+font-size:80px;
+font-weight:bold;
+text-shadow:
+0 0 10px #9d4edd,
+0 0 20px #9d4edd,
+0 0 40px #9d4edd;
+animation:fade 2s ease;
 }
 
 .desc{
-font-size:20px;
-margin-top:10px;
+margin-top:15px;
+font-size:22px;
 opacity:0.9;
+animation:fade 3s ease;
 }
 
 .line{
 margin-top:25px;
-width:200px;
-height:2px;
-background:#7a5cff;
+width:250px;
+height:3px;
+background:#9d4edd;
+box-shadow:0 0 20px #9d4edd;
 }
 
-.bottom-text{
+.bottom{
 margin-top:20px;
-font-size:16px;
+max-width:600px;
 opacity:0.8;
+line-height:1.6;
 }
 
 .scroll{
-margin-top:40px;
+margin-top:50px;
+opacity:0.7;
 font-size:14px;
-opacity:0.6;
+animation:bounce 2s infinite;
 }
+
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+}
+
+/* discord section */
 
 .discord-section{
 height:100vh;
@@ -61,19 +108,36 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-background:#0a0a12;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
 }
 
 .discord{
-font-size:40px;
+font-size:60px;
 text-decoration:none;
-color:#7a5cff;
+color:#c77dff;
+text-shadow:
+0 0 10px #c77dff,
+0 0 20px #c77dff;
 transition:0.3s;
 }
 
 .discord:hover{
-color:#a98bff;
-transform:scale(1.1);
+transform:scale(1.2);
+text-shadow:
+0 0 20px #e0aaff,
+0 0 40px #e0aaff;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 </style>
@@ -81,9 +145,9 @@ transform:scale(1.1);
 
 <body>
 
-<div class="container">
+<section class="hero">
 
-<h1>Heltec Client</h1>
+<div class="title">Heltec Client</div>
 
 <div class="desc">
 heltec client cheat minecraft
@@ -91,24 +155,23 @@ heltec client cheat minecraft
 
 <div class="line"></div>
 
-<div class="bottom-text">
+<div class="bottom">
 This cheat is very good in hvh and has a bypass for polar anticheat, join discord to purchase it
 </div>
 
 <div class="scroll">
-scroll down
+scroll down ↓
 </div>
 
-</div>
+</section>
 
-
-<div class="discord-section">
+<section class="discord-section">
 
 <a class="discord" href="https://discord.gg/qt9EwXRXrK" target="_blank">
 DISCORD
 </a>
 
-</div>
+</section>
 
 </body>
 </html>

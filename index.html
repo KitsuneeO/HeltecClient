@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heltec Client</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        
         :root {
             --primary: #5865F2;
         }
@@ -24,7 +22,6 @@
             overflow-x: hidden;
         }
         
-        /* Custom cursor glow */
         #cursor-glow {
             position: fixed;
             top: 0;
@@ -45,7 +42,6 @@
             opacity: 0 !important;
         }
         
-        /* Scroll progress */
         #scroll-progress {
             position: fixed;
             top: 0;
@@ -58,7 +54,6 @@
             box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
         }
         
-        /* Background blobs */
         .bg-blob {
             position: fixed;
             border-radius: 50%;
@@ -92,7 +87,6 @@
             100% { transform: translate(-4vw, 14vh) scale(0.95); }
         }
         
-        /* Feature cards */
         .feature-card {
             background: #111111;
             border: 1px solid rgba(255,255,255,0.08);
@@ -146,7 +140,6 @@
             background-color: rgba(88, 101, 242, 0.15);
         }
         
-        /* Glow text */
         .glow-text {
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
@@ -159,7 +152,6 @@
             letter-spacing: 0.075em;
         }
         
-        /* Reveal animations */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -220,22 +212,64 @@
             50% { transform: scale(1.08); }
         }
         
-        .tail-container {
-            max-width: 1280px;
-            margin-left: auto;
-            margin-right: auto;
+        .price-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                rgba(255,255,255,0.12), 
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: 0.75s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+        }
+        
+        .price-card:hover::before {
+            left: 250%;
+        }
+        
+        .price-card:hover {
+            border-color: rgba(88, 101, 242, 0.3);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+        
+        .price-card.featured {
+            border-color: rgba(88, 101, 242, 0.5);
+            background: linear-gradient(180deg, rgba(88, 101, 242, 0.1) 0%, #111111 100%);
+        }
+        
+        .price-card.featured:hover {
+            border-color: rgba(88, 101, 242, 0.7);
+        }
+        
+        .discord-link {
+            transition: all 0.3s ease;
+        }
+        
+        .discord-link:hover {
+            text-shadow: 0 0 20px rgba(88, 101, 242, 0.8);
         }
     </style>
 </head>
 <body class="min-h-screen bg-[#050505] text-white overflow-x-hidden relative">
 
-    <!-- Custom cursor glow -->
     <div id="cursor-glow"></div>
-
-    <!-- Scroll progress -->
     <div id="scroll-progress"></div>
-
-    <!-- Background blobs -->
     <div class="bg-blob blob-1 pointer-events-none"></div>
     <div class="bg-blob blob-2 pointer-events-none"></div>
 
@@ -243,6 +277,7 @@
     <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-end items-center relative z-30">
         <div class="flex gap-10 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             <a href="#features" class="nav-link hover:text-white transition-all interactive-el">Features</a>
+            <a href="#pricing" class="nav-link hover:text-white transition-all interactive-el">Pricing</a>
             <a href="https://discord.gg/qt9EwXRXrK" target="_blank" rel="noopener noreferrer" 
                class="nav-link text-[#5865F2] hover:text-[#4752C4] transition-all interactive-el">Discord</a>
         </div>
@@ -280,7 +315,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Card 1 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-100">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -293,7 +328,7 @@
             </div>
             
             <!-- Card 2 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-200">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -306,7 +341,7 @@
             </div>
             
             <!-- Card 3 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-300">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -319,7 +354,7 @@
             </div>
             
             <!-- Card 4 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-400">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 01-5.356-1.857M17 20H7m5-2v-2c0-.656-.126-1.284-.356-1.852M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.284.356-1.852m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -332,7 +367,7 @@
             </div>
             
             <!-- Card 5 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-500">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 01-5.356-1.857M17 20H7m5-2v-2c0-.656-.126-1.284-.356-1.852M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.284.356-1.852m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -345,10 +380,11 @@
             </div>
             
             <!-- Card 6 -->
-            <div class="reveal feature-card rounded-3xl p-8 group interactive-el delay-600">
+            <div class="reveal feature-card rounded-3xl p-8 group interactive-el">
                 <div class="icon-container text-[#5865F2]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 002.573-1.066c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 00.817 1.194 1.724 1.724 0 01.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194 1.724 1.724 0 01-.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </div>
                 <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-[#5865F2]">Customizable</h3>
@@ -356,6 +392,110 @@
                     Fully modular interface. Adjust every setting to fit your playstyle.
                 </p>
             </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="w-full max-w-6xl mx-auto px-6 py-24 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="reveal text-5xl md:text-6xl font-black tracking-widest text-white">PRICING</h2>
+            <div class="h-0.5 w-20 bg-[#5865F2] mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Weekly -->
+            <div class="reveal price-card rounded-3xl p-8 text-center interactive-el">
+                <h3 class="text-2xl font-bold mb-4 text-white">WEEKLY</h3>
+                <div class="mb-6">
+                    <span class="text-3xl font-black text-[#5865F2]">COMING SOON</span>
+                </div>
+                <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        All features included
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        7 days access
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Discord support
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Monthly (Featured) -->
+            <div class="reveal price-card featured rounded-3xl p-8 text-center interactive-el">
+                <div class="bg-[#5865F2] text-white text-xs font-bold px-4 py-1 rounded-full inline-block mb-4">POPULAR</div>
+                <h3 class="text-2xl font-bold mb-4 text-white">MONTHLY</h3>
+                <div class="mb-6">
+                    <span class="text-3xl font-black text-[#5865F2]">COMING SOON</span>
+                </div>
+                <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        All features included
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        30 days access
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Priority support
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Lifetime -->
+            <div class="reveal price-card rounded-3xl p-8 text-center interactive-el">
+                <h3 class="text-2xl font-bold mb-4 text-white">LIFETIME</h3>
+                <div class="mb-6">
+                    <span class="text-3xl font-black text-[#5865F2]">COMING SOON</span>
+                </div>
+                <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        All features included
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Lifetime access
+                    </li>
+                    <li class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-[#5865F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        VIP support
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Discord purchase link -->
+        <div class="reveal text-center mt-12">
+            <p class="text-gray-400 text-lg">
+                You can purchase the client on 
+                <a href="https://discord.gg/qt9EwXRXrK" target="_blank" rel="noopener noreferrer" 
+                   class="discord-link text-[#5865F2] font-bold hover:text-[#4752C4] cursor-pointer">Discord</a>
+            </p>
         </div>
     </section>
 
@@ -371,16 +511,6 @@
     </footer>
 
     <script>
-        // Tailwind script
-        function initializeTailwind() {
-            tailwind.config = {
-                content: [],
-                theme: {
-                    extend: {}
-                }
-            }
-        }
-        
         // Cursor glow
         function initCursor() {
             const cursorGlow = document.getElementById('cursor-glow');
@@ -392,7 +522,7 @@
                 cursorGlow.style.top = `${y}px`;
             });
             
-            const interactiveElements = document.querySelectorAll('a, button, .feature-card, .interactive-el, .nav-link');
+            const interactiveElements = document.querySelectorAll('a, button, .feature-card, .price-card, .interactive-el, .nav-link');
             
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => {
@@ -437,19 +567,16 @@
         
         // Initialize everything
         function initialize() {
-            initializeTailwind();
             initCursor();
             initScrollProgress();
             initRevealAnimations();
             
-            // Add active class to first elements immediately
             setTimeout(() => {
                 const firstReveal = document.querySelector('.reveal');
                 if (firstReveal) firstReveal.classList.add('active');
             }, 300);
         }
         
-        // Run when loaded
         window.onload = initialize;
     </script>
 </body>
